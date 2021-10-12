@@ -1,0 +1,42 @@
+plugins {
+    id 'java'
+    id "com.heroku.sdk.heroku-gradle" version "2.0.0"
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    implementation 'com.sparkjava:spark-core:2.9.3'
+    implementation 'org.slf4j:slf4j-simple:2.0.0-alpha4'
+    implementation 'org.postgresql:postgresql:42.2.24'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes 'Main-Class' : 'Server'
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+heroku {
+    appName = "jhu-heroku-demo"
+    jdkVersion = 8
+    processTypes(
+            web: "java -jar build/libs/heroku-demo-1.0-SNAPSHOT.jar"
+    )
+}

@@ -1,0 +1,1 @@
+web: java -jar build/libs/heroku-demo-1.0-SNAPSHOT.jar
