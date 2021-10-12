@@ -21,7 +21,7 @@ public class Server {
 
     public static void main(String[] args) {
         port(getPort());
-        get("/", (req, res) -> "Hi Heroku!");
+        get("/", (req, res) -> "Hello Heroku!");
         workWithDatabase();
     }
 
